@@ -1,0 +1,28 @@
+# menentukan versi dari docker compose
+version: "3.7"
+
+# membuat volume baru dengan nama app-db yang akan digunakan sebagai penyimpnanan
+volumes:
+  app-db:
+
+# membuat 2 container dengan nama: item-db dan item-app
+# masing-masing container mwmiliki image:
+# - untuk item-db: menggunakan image mongo:3
+# - untuk item-app: menggunakan image yang telah dipush ke github container registry pada kriteria ke-3
+# masing-masing container menerapkan restart policy yang di-set always. yang mana fungsi ini digunakan untuk merestart container ketika berhenti
+
+# untuk item-db menggunakan volume yang telah dibuat di atas
+# sedangkan, untuk item-app akan melakukan port mapping dari 8080 ke 80 agar bisa diakses oleh host dana 
+# 
+services:
+  item-db:
+    image: mongo:3
+    volumes:
+      - app-db:/data/db
+    restart: always
+
+  item-app:
+    image: ghcr.io/mksyfla/item-app:v1
+    ports:
+      - 80:8080
+    restart: always
