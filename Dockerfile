@@ -7,6 +7,15 @@ WORKDIR /app
 # menyalin dari source code ke working directory
 COPY . /app
 
+# mengistall bash di container
+RUN apk add --no-cache bash
+
+# mengunduh wait-for-it.sh
+RUN wget -O /bin/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
+
+# membuat file menjadi executable
+RUN chmod +x /bin/wait-for-it.sh
+
 # memasang dependensi serta menbuild aplikasi dalam container
 RUN npm install
 
