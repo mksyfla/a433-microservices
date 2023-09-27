@@ -1,5 +1,5 @@
-# menggunakan node:14-alpine sebagai base image pada container 
-FROM node:14-alpine
+# menggunakan node:16 versi alpine sebagai base
+FROM node:16-alpine
 
 # memilih working directory di container
 WORKDIR /app
@@ -16,11 +16,11 @@ RUN wget -O /bin/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait
 # membuat file menjadi executable
 RUN chmod +x /bin/wait-for-it.sh
 
-# memasang dependensi serta menbuild aplikasi dalam container
+# memasang dependencies yang dibutuhkan pada aplikasi
 RUN npm install
 
-# mengekspos port container sehingga dapat berjalan pada port 3000
-EXPOSE 3000
+# menyalin file javascript ke ./
+COPY ./*.js ./
 
-# ketika container dijalankan akan melakukan command di bawah
-CMD ["npm", "start"]
+# menjalankan command node index.js
+CMD ["node", "index.js"]
