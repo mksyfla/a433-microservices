@@ -19,5 +19,8 @@ RUN chmod +x /bin/wait-for-it.sh
 # memasang dependensi yang dibutuhkan
 RUN npm install
 
+# mengekspos port
+EXPOSE 3000
+
 # menjalankan aplikasi
 CMD ["npm", "start"]
