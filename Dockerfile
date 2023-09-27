@@ -16,6 +16,9 @@ RUN wget -O /bin/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait
 # membuat file menjadi executable
 RUN chmod +x /bin/wait-for-it.sh
 
+# mengonfigurasi environment pada container
+ENV PORT=3000
+
 # memasang dependencies yang dibutuhkan pada aplikasi
 RUN npm install
 
