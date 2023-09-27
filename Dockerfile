@@ -1,5 +1,5 @@
-# menggunakan node:16 versi alpine sebagai base
-FROM node:16-alpine
+# menggunakan node:14 versi alpine sebagai base
+FROM node:14-alpine
 
 # memilih working directory di container
 WORKDIR /app
