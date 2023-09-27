@@ -7,15 +7,6 @@ WORKDIR /app
 # menyalin dari source code ke working directory
 COPY . /app
 
-# mengistall bash di container
-RUN apk add --no-cache bash
-
-# mengunduh wait-for-it.sh
-RUN wget -O /bin/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
-
-# membuat file menjadi executable
-RUN chmod +x /bin/wait-for-it.sh
-
 # mengonfigurasi environment pada container
 ENV PORT=3001
 
@@ -25,5 +16,5 @@ RUN npm install
 # mengekspos port container sehingga dapat berjalan pada port 3001
 EXPOSE 3001
 
-# menjalankan command node index.js
-CMD ["node", "index.js"]
+# menjalankan command nodejs
+CMD ["npm", "start"]
