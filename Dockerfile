@@ -1,49 +1,17 @@
-# menggunakan node:18 versi alpine sebagai base
-FROM node:18-alpine as base
+# menggunakan node:14-alpine sebagai base image pada container 
+FROM node:14-alpine
 
-# menggunakan /src ebagai working directory
-WORKDIR /src
+# memilih working directory di container
+WORKDIR /app
 
-# menyalin file json dengan awalan "package" ke ./
-COPY package*.json ./
+# menyalin dari source code ke working directory
+COPY . /app
 
-
-# menggunakan base sebagai production
-FROM base as production
-
-# menentukan environment dengan NODE_ENV = production
-ENV NODE_ENV=production
-
-# memasang dependencies yang dibutuhkan pada aplikasi
-RUN npm ci
-
-# menyalin file javascript ke ./
-COPY ./*.js ./
-
-# menjalankan command node index.js
-CMD ["node", "index.js"]
-
-
-# menggunakan base sebagai dev
-FROM base as dev
-
-# mengistall bash di container
-RUN apk add --no-cache bash
-
-# mengunduh wait-for-it.sh
-RUN wget -O /bin/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
-
-# membuat file menjadi executable
-RUN chmod +x /bin/wait-for-it.sh
-
-# menentukan environment dengan NODE_ENV = development
-ENV NODE_ENV=development
-
-# memasang dependencies yang dibutuhkan pada aplikasi
+# memasang dependensi serta menbuild aplikasi dalam container
 RUN npm install
 
-# menyalin file javascript ke ./
-COPY ./*.js ./
+# mengekspos port container sehingga dapat berjalan pada port 3001
+EXPOSE 3001
 
-# menjalankan command node index.js
-CMD ["node", "index.js"]
+# ketika container dijalankan akan melakukan command di bawah
+CMD ["npm", "start"]
