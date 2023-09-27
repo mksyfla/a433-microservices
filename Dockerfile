@@ -19,8 +19,8 @@ RUN chmod +x /bin/wait-for-it.sh
 # memasang dependencies yang dibutuhkan pada aplikasi
 RUN npm install
 
-# menyalin file javascript ke ./
-COPY ./*.js ./
+# mengekspos port container sehingga dapat berjalan pada port 3000
+EXPOSE 3000
 
 # menjalankan command node index.js
 CMD ["node", "index.js"]
