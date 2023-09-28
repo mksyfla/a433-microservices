@@ -1,11 +1,31 @@
 # menggunakan node:18 versi alpine sebagai base
-FROM node:18-alpine
+FROM node:18-alpine as base
 
 # menetapkan working directory
-WORKDIR /app
+WORKDIR /src
 
-# menyalin sc ke container
-COPY . /app
+# menyalin file yang memiliki nama berawalan package ke ./
+COPY package*.json ./
+
+
+# menggunakan base sebagai production
+FROM base as production
+
+# menentukan environment aplikasi
+ENV NODE_ENV=production
+
+# menginstall dependensi yang dibutuhkan
+RUN npm ci
+
+# menyalin file yang memiliki format js ke ./
+COPY ./*.js ./
+
+# menjalankan aplikasi
+CMD ["npm", "start"]
+
+
+# menggunakan base sebagai dev
+FROM base as dev
 
 # meninstall bash di dalam container
 RUN apk add --no-cache bash
@@ -16,8 +36,14 @@ RUN wget -O /bin/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait
 # mengubah akses agar bisa di eksekusi
 RUN chmod +x /bin/wait-for-it.sh
 
-# memasang dependensi yang dibutuhkan
+# menginstall dependensi yang dibutuhkan
+ENV NODE_ENV=development
+
+# menginstall dependensi yang dibutuhkan
 RUN npm install
+
+# menyalin file yang memiliki format js ke ./
+COPY ./*.js ./
 
 # menjalankan aplikasi
 CMD ["npm", "start"]
