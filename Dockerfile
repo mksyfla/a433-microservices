@@ -1,11 +1,11 @@
 # menggunakan node:18 versi alpine sebagai base
-FROM node:18-alpine as base
+FROM node:18-alpine
 
 # menetapkan working directory
-WORKDIR /src
+WORKDIR /app
 
 # menyalin sc ke container
-COPY . .
+COPY . /app
 
 # meninstall bash di dalam container
 RUN apk add --no-cache bash
@@ -18,9 +18,6 @@ RUN chmod +x /bin/wait-for-it.sh
 
 # memasang dependensi yang dibutuhkan
 RUN npm install
-
-# mengekspos port
-EXPOSE 3001
 
 # menjalankan aplikasi
 CMD ["npm", "start"]
